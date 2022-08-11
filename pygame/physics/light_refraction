@@ -1,0 +1,53 @@
+import sys,pygame,keyboard
+from pygame import Color,Vector2,draw,mouse,Rect
+from math import *
+from random import *
+import copy
+
+from pygame import mouse
+
+pygame.init()
+
+getTicksLastFrame = 0
+deltatime = 0
+
+size = width,height = 600,600
+
+screen = pygame.display.set_mode(size)
+
+n1 = 1
+n2 = 1
+ang1 = 0
+ang2 = 0
+
+mp = Vector2(-1,-1)
+
+lines = [Vector2(0,0),Vector2(300,300),Vector2(300,500)]
+
+
+while 1:
+    t = pygame.time.get_ticks()
+    deltatime = (t - getTicksLastFrame) / 1000.0
+    getTicksLastFrame = t
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit()
+    mpos = Vector2(mouse.get_pos())
+    if(mpos.x < 300):
+        mp.x = -1
+    if(mpos.x > 300):
+        mp.x = 1
+    if(mpos.y < 300):
+        mp.y = -1
+    if(mpos.y > 300):
+        mp.y = 1
+    lines[0] = mpos
+    ang1 = Vector2(0,-1).angle_to(mpos - Vector2(300,300))
+    ang1 = abs(ang1)
+    ang1 = ang1 / 180 * pi
+    ang2 = asin((n1 * sin(ang1)) / n2)
+    lines[2] = Vector2(300,300) + Vector2(cos(ang2),sin(ang2)) * 1000
+    print(ang1)
+    draw.line(screen,Color(255,255,255),Vector2(0,300),Vector2(600,300))
+    draw.lines(screen,Color(255,100,100),False,lines)
+    pygame.display.update()
+    screen.fill((0,0,0))
