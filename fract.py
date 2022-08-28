@@ -20,6 +20,7 @@ while not keyboard.is_pressed("w"):
 size = 1
 keyboard.wait("q")
 def sqfract():
+    global size
     for x in range(3):
         for y in range(3):
             if(x == y == 1):
@@ -54,14 +55,17 @@ def idkfract():
 
 x = 0  
 while not keyboard.is_pressed("w"):
-    x += 0.005
-    if(x > math.pi * 12 * 2):
-        x -= 12 * math.pi
-    mouse.move(600 + math.cos(x / 6) * 400,400 + math.sin(x/4) * 100)
+    #x += 0.005
+    #if(x > math.pi * 12 * 2):
+    #    x -= 12 * math.pi
+    #mouse.move(600 + math.cos(x / 6) * 400,400 + math.sin(x/4) * 100)
+    
+    keyboard.press_and_release("esc")
     mouse.hold()
-    # keyboard.press_and_release("esc")
-    # mouse.drag(600,600,0,0,True,0.1)
-    # keyboard.press_and_release("ctrl+x")
-    # time.sleep(0.1)
+    mouse.drag(600,600,0,0,True,0.06)
+    keyboard.press_and_release("ctrl+x")
+    time.sleep(0.1)
+    mouse.release()
+    idkfract()
 
 mouse.release()

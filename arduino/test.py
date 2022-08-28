@@ -1,30 +1,28 @@
-import keyboard
-from pyfirmata import Arduino,util
+import serial
 import time
+import mouse
+import keyboard
+import math
 
-board = Arduino("COM3")
+arduino = serial.Serial(port='COM5', baudrate=115200, timeout=.1)
 
-it = util.Iterator(board)
-it.start()
+mid = (657, 767)
+prevang = 0
 
-p8 = board.get_pin("d:3:o")
+def getang(p1,p2):
+    return math.atan2(p2[1] - p1[1],p2[0] - p1[0])
 
-p8.write(1)
+def write_read(x):
+    arduino.write(bytes(x, 'utf-8'))
+    time.sleep(0.05)
+    data = arduino.readline()
+    return data
 
-# global power
-# power = 0
 
-# def func():
-#     global power
-#     power = 0 if power == 1 else 1
-#     keyboard.press_and_release("backspace")
-#     print(power)
 
-# keyboard.add_hotkey("q",func)
 
-# while not keyboard.is_pressed("g"):
-#     p8.write(1)
-# else:
-#     keyboard.press_and_release("backspace")
-
-board.exit()
+while True:
+    ang = getang(mouse.get_position(),mid) / math.pi * 180
+    ang = 180 - ang
+    # print()
+    value = write_read(str(int(ang)))
